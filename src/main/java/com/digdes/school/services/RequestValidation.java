@@ -75,9 +75,9 @@ public class RequestValidation {
         return valid;
     }
 
-    private static boolean conditionOperationValidation(String bool) {
+    private static boolean conditionOperationValidation(String comparisonOperator) {
         boolean valid = false;
-        switch (bool.toLowerCase(Locale.ROOT)) {
+        switch (comparisonOperator.toLowerCase(Locale.ROOT)) {
             case "=", "!=", "like", "ilike", ">=", "<=", "<", ">" -> valid = true;
         }
         return valid;
@@ -85,12 +85,12 @@ public class RequestValidation {
 
     private boolean conditionValidation(String[] condition) {
         boolean valid;
-        String key, bool, val;
+        String key, comparisonOperator, val;
         key = condition[condition.length-3];
-        bool = condition[condition.length-2];
+        comparisonOperator = condition[condition.length-2];
         val = condition[condition.length-1];
         if (!keyNameValidation(key)) return false;
-        valid = conditionValidation(key, bool, val);
+        valid = conditionValidation(key, comparisonOperator, val);
         if (condition.length > 4) {
             String key2, bool2, val2, operator;
             key2 = condition[condition.length-7];
@@ -105,29 +105,29 @@ public class RequestValidation {
         return valid;
     }
 
-    private boolean conditionValidation(String key, String bool, String val) {
+    private boolean conditionValidation(String key, String comparisonOperator, String val) {
         boolean valid = false;
         switch (key.toLowerCase(Locale.ROOT)) {
             case "id" -> {
-                if (val.matches("\\d") && conditionOperationValidation(bool)) valid = true;
+                if (val.matches("\\d") && conditionOperationValidation(comparisonOperator)) valid = true;
                 else return false;
             }
             case "lastname" -> {
                 if (val.matches("[А-Яа-я]*|[А-Яа-я]*(.*)|(.*)[А-Яа-я]*|(.*)[А-Яа-я]*(.*)")
-                        && conditionOperationValidation(bool)) valid = true;
+                        && conditionOperationValidation(comparisonOperator)) valid = true;
                 else return false;
             }
             case "age" -> {
-                if (val.matches("\\d*") && conditionOperationValidation(bool)) valid = true;
+                if (val.matches("\\d*") && conditionOperationValidation(comparisonOperator)) valid = true;
                 else return false;
             }
             case "cost" -> {
-                if (val.matches("\\d*.\\d*|\\d*") && conditionOperationValidation(bool)) valid = true;
+                if (val.matches("\\d*.\\d*|\\d*") && conditionOperationValidation(comparisonOperator)) valid = true;
                 else return false;
             }
             case "active" -> {
-                if (val.equalsIgnoreCase("true") && conditionOperationValidation(bool)
-                        || val.equalsIgnoreCase("false") && conditionOperationValidation(bool)) valid = true;
+                if (val.equalsIgnoreCase("true") && conditionOperationValidation(comparisonOperator)
+                        || val.equalsIgnoreCase("false") && conditionOperationValidation(comparisonOperator)) valid = true;
                 else return false;
             }
         }

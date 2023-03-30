@@ -5,6 +5,9 @@ import com.digdes.school.services.Service;
 import java.util.*;
 
 public class Select {
+    /**
+     * @Select: Класс команды "Select"
+     * **/
     private final Service service = new Service();
 
     public Select() {
@@ -15,45 +18,44 @@ public class Select {
 
         List<Map<String, Object>> select = new ArrayList<>();
         if (condition.length < 3) {
-            for (Map<String, Object> map: dataBase) {
+            for (Map<String, Object> map : dataBase) {
                 select.add(putRow(values, map));
             }
             return select;
         }
 
-        String key, bool, val;
+        String key, comparisonOperator, value;
 
-        key = condition[condition.length-3];
+        key = condition[condition.length - 3];
         key = service.validValue(key);
-        bool = condition[condition.length-2];
-        val = condition[condition.length-1];
+        comparisonOperator = condition[condition.length - 2];
+        value = condition[condition.length - 1];
         if (condition.length > 4) {
-            String key2, bool2, val2;
+            String key2, comparisonOperator2, value2;
 
-            key2 = condition[condition.length-7];
+            key2 = condition[condition.length - 7];
             key2 = service.validValue(key2);
-            bool2 = condition[condition.length-6];
-            val2 = condition[condition.length-5];
+            comparisonOperator2 = condition[condition.length - 6];
+            value2 = condition[condition.length - 5];
 
-            if (condition[4].toUpperCase(Locale.ROOT).equals("AND")){
-                for (Map<String, Object> map: dataBase) {
-                    if (service.comparisonOperator(map.get(key),bool,val) && service.comparisonOperator(map.get(key2),bool2,val2)) {
+            if (condition[4].toUpperCase(Locale.ROOT).equals("AND")) {
+                for (Map<String, Object> map : dataBase) {
+                    if (service.comparisonOperatorService(map.get(key), comparisonOperator, value)
+                            && service.comparisonOperatorService(map.get(key2), comparisonOperator2, value2)) {
+                        select.add(putRow(values, map));
+                    }
+                }
+            } else if (condition[4].toUpperCase(Locale.ROOT).equals("OR")) {
+                for (Map<String, Object> map : dataBase) {
+                    if (service.comparisonOperatorService(map.get(key), comparisonOperator, value)
+                            || service.comparisonOperatorService(map.get(key2), comparisonOperator2, value2)) {
                         select.add(putRow(values, map));
                     }
                 }
             }
-            else if (condition[4].toUpperCase(Locale.ROOT).equals("OR")){
-                for (Map<String, Object> map: dataBase) {
-                    if (service.comparisonOperator(map.get(key),bool,val) || service.comparisonOperator(map.get(key2),bool2,val2)) {
-                        select.add(putRow(values, map));
-                    }
-                }
-            }
-        }
-
-        else {
-            for (Map<String, Object> map: dataBase) {
-                if (service.comparisonOperator(map.get(key),bool,val)) {
+        } else {
+            for (Map<String, Object> map : dataBase) {
+                if (service.comparisonOperatorService(map.get(key), comparisonOperator, value)) {
                     select.add(putRow(values, map));
                 }
             }
@@ -64,7 +66,7 @@ public class Select {
     private static Map<String, Object> putRow(String[] values, Map<String, Object> map) {
         Map<String, Object> row = new HashMap<>();
         for (int i = 1; i < values.length; i++) {
-            row.put(values[i],map.get(values[i]));
+            row.put(values[i], map.get(values[i]));
         }
         return row;
     }

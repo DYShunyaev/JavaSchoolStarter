@@ -3,77 +3,83 @@ package com.digdes.school.services;
 import java.util.Locale;
 
 public class Service {
-    public String validValue(String val) {
-        if (val.equalsIgnoreCase("id")) return "id";
-        else if (val.equalsIgnoreCase("lastName")) return "lastName";
-        else if (val.equalsIgnoreCase("age")) return "age";
-        else if (val.equalsIgnoreCase("cost")) return "cost";
+    /**
+     @Service  класс, для выполнения логических операций и валидации ключей Map.
+     */
+    public String validValue(String value) {
+        if (value.equalsIgnoreCase("id")) return "id";
+        else if (value.equalsIgnoreCase("lastName")) return "lastName";
+        else if (value.equalsIgnoreCase("age")) return "age";
+        else if (value.equalsIgnoreCase("cost")) return "cost";
         else return "active";
     }
 
-    public boolean comparisonOperator(Object key, String bool, String val) {
-        if (bool.equals("=")) {
-            return key.equals(val);
+    /**
+     * @comparisonOperatorService() Метод, позволяющий реализовать логические операции сравнения, в аргументе получает: ключ, оператор сравнения и значение.
+     */
+    public boolean comparisonOperatorService(Object key, String comparisonOperator, String value) {
+        /*Большинство аргументов типа "String", поэтому большая часть логики - работа со строками.*/
+        if (comparisonOperator
+            .equals("=")) {
+            return key.equals(value);
         }
-        else if (bool.equals("!=")) {
-            return !key.equals(val);
+        else if (comparisonOperator
+            .equals("!=")) {
+            return !key.equals(value);
         }
-        else if (bool.equalsIgnoreCase("like")) {
+        else if (comparisonOperator
+            .equalsIgnoreCase("like")) {
             String check;
 
-            if (val.endsWith("%") && !val.startsWith("%")) {
-                check = val.replaceAll("%","");
+            if (value.endsWith("%") && !value.startsWith("%")) {
+                check = value.replaceAll("%", "");
                 return String.valueOf(key).matches(check + "(.*)");
+            } else if (value.startsWith("%") && !value.endsWith("%")) {
+                check = value.replaceAll("%", "");
+                return String.valueOf(key).matches("(.*)" + check);
+            } else if (value.startsWith("%") && value.endsWith("%")) {
+                check = value.replaceAll("%", "");
+                return String.valueOf(key).matches("(.*)" + check + "(.*)");
+            } else {
+                return String.valueOf(key).matches(value);
             }
-            else if (val.startsWith("%") && !val.endsWith("%")) {
-                check = val.replaceAll("%","");
-                return String.valueOf(key).matches( "(.*)" + check);
-            }
-            else if (val.startsWith("%") && val.endsWith("%")) {
-                check = val.replaceAll("%","");
-                return String.valueOf(key).matches( "(.*)" + check + "(.*)");
-            }
-            else {
-                return String.valueOf(key).matches(val);
-            }
+
         }
-        else if (bool.equalsIgnoreCase("ilike")) {
+        else if (comparisonOperator
+            .equalsIgnoreCase("ilike")) {
             String check;
 
-            if (val.endsWith("%") && !val.startsWith("%")) {
-                check = val.replaceAll("%","").toLowerCase(Locale.ROOT);
+            if (value.endsWith("%") && !value.startsWith("%")) {
+                check = value.replaceAll("%", "").toLowerCase(Locale.ROOT);
                 return String.valueOf(key).toLowerCase(Locale.ROOT).matches(check + "(.*)");
-            }
-            else if (val.startsWith("%") && !val.endsWith("%")) {
-                check = val.replaceAll("%","").toLowerCase(Locale.ROOT);
-                return String.valueOf(key).toLowerCase(Locale.ROOT).matches( "(.*)" + check);
-            }
-            else if (val.startsWith("%") && val.endsWith("%")) {
-                check = val.replaceAll("%","").toLowerCase(Locale.ROOT);
-                return String.valueOf(key).toLowerCase(Locale.ROOT).matches( "(.*)" + check + "(.*)");
-            }
-            else {
-                return String.valueOf(key).toLowerCase(Locale.ROOT).matches(val.toLowerCase(Locale.ROOT));
+            } else if (value.startsWith("%") && !value.endsWith("%")) {
+                check = value.replaceAll("%", "").toLowerCase(Locale.ROOT);
+                return String.valueOf(key).toLowerCase(Locale.ROOT).matches("(.*)" + check);
+            } else if (value.startsWith("%") && value.endsWith("%")) {
+                check = value.replaceAll("%", "").toLowerCase(Locale.ROOT);
+                return String.valueOf(key).toLowerCase(Locale.ROOT).matches("(.*)" + check + "(.*)");
+            } else {
+                return String.valueOf(key).toLowerCase(Locale.ROOT).matches(value.toLowerCase(Locale.ROOT));
             }
         }
         else {
+            /*Для логических операторов ">,<" строка парсится в Long или Double, для дальнейшего вычисления.*/
             Long number = null;
             Long number2 = null;
             Double num = null;
             Double num2 = null;
-            if (String.valueOf(key).matches("\\d+.\\d+")){
+            if (String.valueOf(key).matches("\\d+.\\d+")) {
                 num = Double.parseDouble((String) key);
-            }
-            else {
+            } else {
                 number = Long.parseLong((String) key);
             }
-            if (val.matches("\\d+.\\d+")) {
-                num2 = Double.parseDouble(val);
+            if (value.matches("\\d+.\\d+")) {
+                num2 = Double.parseDouble(value);
+            } else {
+                number2 = Long.parseLong(value);
             }
-            else {
-                number2 = Long.parseLong(val);
-            }
-            switch (bool) {
+            switch (comparisonOperator
+            ) {
                 case ">=" -> {
                     if (num == null && num2 == null) return number >= number2;
                     if (number == null && number2 == null) return num >= num2;

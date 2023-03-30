@@ -30,7 +30,7 @@ public class Main {
                 System.out.println(Arrays.toString(new Map[]{stringObjectMap}));
             }
             result2 = starter
-                    .execute("UPDATE VALUES 'lastName'= 'Подбельцев', 'cost'=4.1, 'age'=23 where 'id'=5 AND 'lastName' like %тро%");
+                    .execute("UPDATE VALUES 'lastName'= 'Подбельцев', 'cost'=4.1, 'age'=23 where 'id'>=5 AND 'lastName' like %тро%");
             System.out.println("-----------------------------------------------------");
             for (Map<String, Object> stringObjectMap : result2) {
                 System.out.println(Arrays.toString(new Map[]{stringObjectMap}));
