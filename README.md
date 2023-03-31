@@ -27,7 +27,7 @@ https://github.com/DYShunyaev/JavaSchoolStarter.git
 3. Импортировать проект в [IntelliJ IDEA](https://www.jetbrains.com/idea/download/).
 4. Сборка проекта `` mvn compile``
 5. Перейти в класс [Main](src/main/java/com/digdes/school/Main.java)
-6. В параметре метода [*JavaSchoolStarter.execute()*](D:\Java\JavaSchoolStarter\src\main\java\com\digdes\school\JavaSchoolStarter.java) ввести SQL запрос (параметр принимает переменную типа *String*).
+6. В параметре метода [*JavaSchoolStarter.execute()*](src\main\java\com\digdes\school\JavaSchoolStarter.java) ввести SQL запрос (параметр принимает переменную типа *String*).
 7. Выполнить запуск.
 
 ### 4) Порядок написания запроса
