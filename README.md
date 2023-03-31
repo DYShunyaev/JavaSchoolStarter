@@ -19,15 +19,15 @@ ___
 ### 3) Запуск программы
 Для запуска программы необходимо:
 
-1. [Скачать](https://gitlabci.raiffeisen.ru/sme-development/payment/sme-rpayments-ui-test.git) репозиторий.
+1. [Скачать](https://github.com/DYShunyaev/JavaSchoolStarter.git) репозиторий.
 2. Клонировать, т.е., загрузить копию *репозитория* на локальный диск компьютера.
 ```
-git@github.com:DYShunyaev/JavaSchoolStarter.git
+https://github.com/DYShunyaev/JavaSchoolStarter.git
 ```
 3. Импортировать проект в [IntelliJ IDEA](https://www.jetbrains.com/idea/download/).
 4. Сборка проекта `` mvn compile``
 5. Перейти в класс [Main](src/main/java/com/digdes/school/Main.java)
-6. В параметре метода *JavaSchoolStarter.execute()* ввести SQL запрос (параметр принимает переменную типа *String*).
+6. В параметре метода [*JavaSchoolStarter.execute()*](D:\Java\JavaSchoolStarter\src\main\java\com\digdes\school\JavaSchoolStarter.java) ввести SQL запрос (параметр принимает переменную типа *String*).
 7. Выполнить запуск.
 
 ### 4) Порядок написания запроса

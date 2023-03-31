@@ -25,7 +25,9 @@ public class JavaSchoolStarter {
     }
 
     List<Map<String, Object>> dataBase = new ArrayList<>();
-
+    /**
+     * @execute(): Основной метод.
+     * */
     public List<Map<String, Object>> execute(String request) throws Exception {
 
         String[] values = request
